@@ -7,13 +7,13 @@
   $user = $connect -> query("SELECT * FROM users WHERE email='$email'  ;") or die($connect -> error);
   $row =$user->fetch_assoc();
   $id = $row['id'];
-  $nom = $row['nom'];
-  $genre = $row['genre'];
-  $poids = $row['poids'];
-  $taille = $row['taille'];
-  $date_naissance =  $row['date_naissance'];
+  $nom1 = $row['nom'];
+  $genre1 = $row['genre'];
+  $poids1 = $row['poids'];
+  $taille1 = $row['taille'];
+  $date_naissance1 =  $row['date_naissance'];
   
-  $but = $row['but'];
+  $but1 = $row['but'];
   if (htmlspecialchars(isset($_POST['submit']))) {
     // enregistrer les valeurs récupérées du formulaire dans des variables 
         
@@ -29,7 +29,7 @@
             
         // modifier les valeurs  de la base de données avec la requete UPDATE .... SET 
         $connect->query("UPDATE users SET nom='$nom', date_naissance='$date',genre='$genre',taille='$taille',poids='$poids',but='$but' WHERE email='$email'") or die ($connect ->error);
-    
+    // algorithme de calcul
         switch ($genre){
             case 'femme':
           $gender= 655 + (9.6 * $poids ) + (1.8 * $taille) - (4.7 * 25);
@@ -50,10 +50,7 @@
             $gender;
                 break;
         }
-        $resultat = $connect -> query("SELECT SUM(calories_cal) as caloriescal FROM aliments WHERE user='$id';") or die ($connect ->error);
-        $row =$resultat->fetch_assoc();
-        $calories= $row['caloriescal'];
-        $connect -> query("INSERT INTO calories (calorie,user,calorie_moy) VALUES ('$gender','$id','$calories') ;") or die ($connect ->error);
+       
     }  ?>
 
 <!DOCTYPE html>
@@ -148,7 +145,7 @@
                             <div class="row">
                                 <div class="col-lg-12 mt-3">
                                     <label class="">Nom</label>
-                                    <input type="text" class="form-control trial-input" placeholder="First Name" required="" value="<?php echo $nom; ?>" name="name">
+                                    <input type="text" class="form-control trial-input" placeholder="First Name" required="" value="<?php echo $nom1; ?>" name="name">
                                 </div>
                                 <div class="col-lg-12 mt-3">
                                
@@ -162,37 +159,37 @@
                                 <?php  ?>
                                     <label class="">Je suis: </label>
                                     <label class="">Femme </label>
-                                    <input type="radio" id="femme" name="genre" value="femme" <?php if($genre=="femme"){echo "checked=\"checked\" ";} ?>>
+                                    <input type="radio" id="femme" name="genre" value="femme" <?php if($genre1=="femme"){echo "checked=\"checked\" ";} ?>>
                                     <label class="">Homme</label>
 
-                                    <input type="radio" id="homme" name="genre" value="homme" <?php if($genre=="homme"){echo "checked=\"checked\" ";} ?>>
+                                    <input type="radio" id="homme" name="genre" value="homme" <?php if($genre1=="homme"){echo "checked=\"checked\" ";} ?>>
                                    
 
                                 </div>
                                 <div class="col-lg-12 mt-3">
                                     <label class="">Date de naissance</label>
                                     <input type="date" id="start" name="date"
-                                    min="1900-01-01" max="2021-12-31" value="<?php echo $date_naissance;?>">                    
+                                    min="1900-01-01" max="2021-12-31" value="<?php echo $date_naissance1;?>">                    
                                 </div>
                                 <div class="col-lg-12 mt-3">
                                     <label class="">Poids actuel en kg</label>
-                                    <input type="number" class="form-control trial-input" name="poids" placeholder="poid" required="" value="<?php echo $poids; ?>">
+                                    <input type="number" class="form-control trial-input" name="poids" placeholder="poid" required="" value="<?php echo $poids1; ?>">
                                 </div>
                                 <div class="col-lg-12 mt-3">
                                     <label class="">taille en cm</label>
-                                    <input type="number" class="form-control trial-input" name="taille" placeholder="taille" required="" value="<?php echo $taille; ?>">
+                                    <input type="number" class="form-control trial-input" name="taille" placeholder="taille" required="" value="<?php echo $taille1; ?>">
                                 </div>
                                 <div class="col-lg-12 mt-3">
                                     <label class="">Je veux : </label>
-                                    <?php $but =  $row['but']; ?>
+                                    <?php  ?>
                                     <label class="">gain du poids </label>
-                                    <input type="radio" id="gain" name="but" value="gain du poids" <?php if($but=="gain du poids"){echo "checked=\"checked\" ";} ?>>
+                                    <input type="radio" id="gain" name="but" value="gain du poids" <?php if($but1=="gain du poids"){echo "checked=\"checked\" ";} ?>>
 
                                     <label class="">perte du poids </label>
-                                    <input type="radio" id="perte" name="but" value="perte du poids" <?php if($but=="perte du poids"){echo "checked=\"checked\" ";} ?> >
+                                    <input type="radio" id="perte" name="but" value="perte du poids" <?php if($but1=="perte du poids"){echo "checked=\"checked\" ";} ?> >
 
                                     <label class="">maintient du poids </label>
-                                    <input type="radio" id="maintient" name="but" value="maintient du poids"  <?php if($but=="maintient du poids"){echo "checked=\"checked\" ";} ?>>
+                                    <input type="radio" id="maintient" name="but" value="maintient du poids"  <?php if($but1=="maintient du poids"){echo "checked=\"checked\" ";} ?>>
 
                                 </div>
                                
