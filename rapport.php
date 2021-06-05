@@ -3,7 +3,7 @@
  // Check if the user is logged in, if not then redirect him to login page
  $connect = mysqli_connect("localhost", "root", "", "healthyme");  
  $email =   $_SESSION["email"]  ;
- $calories = 0;
+//  $calories = 0;
   $user = $connect -> query("SELECT * FROM users WHERE email='$email'  ;") or die($connect -> error);
   $row =$user->fetch_assoc();
   $id = $row['id'];
@@ -22,19 +22,33 @@
         $cal = $_POST['cal'];
         $calor = $quantite * $cal/100 ; 
         $date=date("d-m-Y");
-        $insert= $connect -> query("INSERT INTO aliments (name,calories_cal,user,date) VALUES ('$name','$calor','$id',$date) ;") or die ($connect ->error);
-        if ($insert) {
-            echo"<script> alert('Aliments bien ajouté!')</script>";
-        }else {
-        echo"<script> alert('oops erreur ! ')</script>";
+        $sql = "INSERT INTO aliments (name,calories_cal,user,date) VALUES ('$name','$calor','$id',$date) ;";
+     //   $insert= $connect -> query("INSERT INTO aliments (name,calories_cal,user,date) VALUES ('$name','$calor','$id',$date) ;") or die ($connect ->error);
+    //     if ($insert) {
+    //         echo"<script> alert('Aliments bien ajouté!')</script>";
+    //     }else {
+    //     echo"<script> alert('oops erreur ! ')</script>";
 
-    }
+    // }
+    if ($connect->query($sql) === TRUE) {
+        echo"<script> alert('Aliments bien ajouté!')</script>";
+      } else {
+        echo "Error: " . $sql . "<br>" . $connect->error;
+      }
+     
+      
  }
 
+ $resultat = $connect -> query("SELECT SUM(calories_cal) as caloriescal FROM aliments WHERE user='$id';") or die ($connect ->error);
+ $row =$resultat->fetch_assoc();
+ $calories= $row['caloriescal'];
+ $update = $connect -> query("UPDATE calories SET calorie_moy='$calories'  WHERE user='$id';") or die ($connect ->error);
+
+//  $connect -> query("INSERT INTO calories (calorie,user,calorie_moy) VALUES ('$gender','$id','$calories') ;") or die ($connect ->error);
 
  $jour = time() - ( 24 * 60 * 60);
  $hier = date('Y-m-d', $jour) ;
- $journalier = $connect -> query("DELETE FROM aliments WHERE date<='$hier' AND user='$id';") or die ($connect ->error);
+// $journalier = $connect -> query("DELETE FROM aliments WHERE date<='$hier' AND user='$id';") or die ($connect ->error);
 
 
 
