@@ -120,12 +120,7 @@ $fields = sparql_field_array( $result );
 </tr>
 </thead>
 <?php
-print "<tr>";
-foreach( $fields as $field )
-{
-   print "<th>$field</th>";
-}
-print "</tr>";
+
 while( $row = sparql_fetch_array( $result ) )
 {
    print "<tr>";
